@@ -68,7 +68,7 @@ class ChatRoomUsers extends HookConsumerWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Created: ${room.createdAt.value}',
-                style: Theme.of(context).textTheme.overline,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
             Row(
@@ -114,7 +114,7 @@ class ChatRoomUsers extends HookConsumerWidget {
             children: [
               Text(
                 'Members',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               if (canEdit)
                 Padding(
@@ -161,7 +161,7 @@ class ChatRoomUser extends HookConsumerWidget {
             width: 90,
             child: Text(
               '- $name',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.labelSmall,
             ),
           ),
           const SizedBox(width: 10),
@@ -170,7 +170,7 @@ class ChatRoomUser extends HookConsumerWidget {
             child: Center(
               child: Text(
                 user.role.name,
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.labelSmall,
               ),
             ),
           ),

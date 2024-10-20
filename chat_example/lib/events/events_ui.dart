@@ -51,7 +51,7 @@ class UserEventList extends HookConsumerWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             'Events',
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
         Consumer(builder: (context, ref, _) {
