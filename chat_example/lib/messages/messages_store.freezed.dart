@@ -12,7 +12,7 @@ part of 'messages_store.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ChatMessageEvent {
@@ -107,13 +107,16 @@ class _$ChatMessageEventCopyWithImpl<$Res, $Val extends ChatMessageEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChatMessageEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
-abstract class _$$ChatMessageSentEventCopyWith<$Res> {
-  factory _$$ChatMessageSentEventCopyWith(_$ChatMessageSentEvent value,
-          $Res Function(_$ChatMessageSentEvent) then) =
-      __$$ChatMessageSentEventCopyWithImpl<$Res>;
+abstract class _$$ChatMessageSentEventImplCopyWith<$Res> {
+  factory _$$ChatMessageSentEventImplCopyWith(_$ChatMessageSentEventImpl value,
+          $Res Function(_$ChatMessageSentEventImpl) then) =
+      __$$ChatMessageSentEventImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageSentEvent
@@ -121,19 +124,21 @@ abstract class _$$ChatMessageSentEventCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$ChatMessageSentEventCopyWithImpl<$Res>
-    extends _$ChatMessageEventCopyWithImpl<$Res, _$ChatMessageSentEvent>
-    implements _$$ChatMessageSentEventCopyWith<$Res> {
-  __$$ChatMessageSentEventCopyWithImpl(_$ChatMessageSentEvent _value,
-      $Res Function(_$ChatMessageSentEvent) _then)
+class __$$ChatMessageSentEventImplCopyWithImpl<$Res>
+    extends _$ChatMessageEventCopyWithImpl<$Res, _$ChatMessageSentEventImpl>
+    implements _$$ChatMessageSentEventImplCopyWith<$Res> {
+  __$$ChatMessageSentEventImplCopyWithImpl(_$ChatMessageSentEventImpl _value,
+      $Res Function(_$ChatMessageSentEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatMessageEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$ChatMessageSentEvent(
+    return _then(_$ChatMessageSentEventImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -144,10 +149,10 @@ class __$$ChatMessageSentEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ChatMessageSentEvent
+class _$ChatMessageSentEventImpl
     with DiagnosticableTreeMixin
     implements ChatMessageSentEvent {
-  const _$ChatMessageSentEvent(this.value);
+  const _$ChatMessageSentEventImpl(this.value);
 
   @override
   final GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageSentEvent
@@ -167,22 +172,25 @@ class _$ChatMessageSentEvent
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ChatMessageSentEvent &&
+            other is _$ChatMessageSentEventImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatMessageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ChatMessageSentEventCopyWith<_$ChatMessageSentEvent> get copyWith =>
-      __$$ChatMessageSentEventCopyWithImpl<_$ChatMessageSentEvent>(
-          this, _$identity);
+  _$$ChatMessageSentEventImplCopyWith<_$ChatMessageSentEventImpl>
+      get copyWith =>
+          __$$ChatMessageSentEventImplCopyWithImpl<_$ChatMessageSentEventImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -283,21 +291,25 @@ class _$ChatMessageSentEvent
 abstract class ChatMessageSentEvent implements ChatMessageEvent {
   const factory ChatMessageSentEvent(
       final GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageSentEvent
-          value) = _$ChatMessageSentEvent;
+          value) = _$ChatMessageSentEventImpl;
 
   @override
   GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageSentEvent
       get value;
-  @JsonKey(ignore: true)
-  _$$ChatMessageSentEventCopyWith<_$ChatMessageSentEvent> get copyWith =>
-      throw _privateConstructorUsedError;
+
+  /// Create a copy of ChatMessageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatMessageSentEventImplCopyWith<_$ChatMessageSentEventImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ChatMessageDeletedEventCopyWith<$Res> {
-  factory _$$ChatMessageDeletedEventCopyWith(_$ChatMessageDeletedEvent value,
-          $Res Function(_$ChatMessageDeletedEvent) then) =
-      __$$ChatMessageDeletedEventCopyWithImpl<$Res>;
+abstract class _$$ChatMessageDeletedEventImplCopyWith<$Res> {
+  factory _$$ChatMessageDeletedEventImplCopyWith(
+          _$ChatMessageDeletedEventImpl value,
+          $Res Function(_$ChatMessageDeletedEventImpl) then) =
+      __$$ChatMessageDeletedEventImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageDeletedEvent
@@ -305,19 +317,22 @@ abstract class _$$ChatMessageDeletedEventCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$ChatMessageDeletedEventCopyWithImpl<$Res>
-    extends _$ChatMessageEventCopyWithImpl<$Res, _$ChatMessageDeletedEvent>
-    implements _$$ChatMessageDeletedEventCopyWith<$Res> {
-  __$$ChatMessageDeletedEventCopyWithImpl(_$ChatMessageDeletedEvent _value,
-      $Res Function(_$ChatMessageDeletedEvent) _then)
+class __$$ChatMessageDeletedEventImplCopyWithImpl<$Res>
+    extends _$ChatMessageEventCopyWithImpl<$Res, _$ChatMessageDeletedEventImpl>
+    implements _$$ChatMessageDeletedEventImplCopyWith<$Res> {
+  __$$ChatMessageDeletedEventImplCopyWithImpl(
+      _$ChatMessageDeletedEventImpl _value,
+      $Res Function(_$ChatMessageDeletedEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatMessageEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$ChatMessageDeletedEvent(
+    return _then(_$ChatMessageDeletedEventImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -328,10 +343,10 @@ class __$$ChatMessageDeletedEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ChatMessageDeletedEvent
+class _$ChatMessageDeletedEventImpl
     with DiagnosticableTreeMixin
     implements ChatMessageDeletedEvent {
-  const _$ChatMessageDeletedEvent(this.value);
+  const _$ChatMessageDeletedEventImpl(this.value);
 
   @override
   final GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageDeletedEvent
@@ -351,22 +366,24 @@ class _$ChatMessageDeletedEvent
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ChatMessageDeletedEvent &&
+            other is _$ChatMessageDeletedEventImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatMessageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ChatMessageDeletedEventCopyWith<_$ChatMessageDeletedEvent> get copyWith =>
-      __$$ChatMessageDeletedEventCopyWithImpl<_$ChatMessageDeletedEvent>(
-          this, _$identity);
+  _$$ChatMessageDeletedEventImplCopyWith<_$ChatMessageDeletedEventImpl>
+      get copyWith => __$$ChatMessageDeletedEventImplCopyWithImpl<
+          _$ChatMessageDeletedEventImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -467,21 +484,25 @@ class _$ChatMessageDeletedEvent
 abstract class ChatMessageDeletedEvent implements ChatMessageEvent {
   const factory ChatMessageDeletedEvent(
       final GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageDeletedEvent
-          value) = _$ChatMessageDeletedEvent;
+          value) = _$ChatMessageDeletedEventImpl;
 
   @override
   GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageDeletedEvent
       get value;
-  @JsonKey(ignore: true)
-  _$$ChatMessageDeletedEventCopyWith<_$ChatMessageDeletedEvent> get copyWith =>
-      throw _privateConstructorUsedError;
+
+  /// Create a copy of ChatMessageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatMessageDeletedEventImplCopyWith<_$ChatMessageDeletedEventImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ChatMessageUpdatedEventCopyWith<$Res> {
-  factory _$$ChatMessageUpdatedEventCopyWith(_$ChatMessageUpdatedEvent value,
-          $Res Function(_$ChatMessageUpdatedEvent) then) =
-      __$$ChatMessageUpdatedEventCopyWithImpl<$Res>;
+abstract class _$$ChatMessageUpdatedEventImplCopyWith<$Res> {
+  factory _$$ChatMessageUpdatedEventImplCopyWith(
+          _$ChatMessageUpdatedEventImpl value,
+          $Res Function(_$ChatMessageUpdatedEventImpl) then) =
+      __$$ChatMessageUpdatedEventImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageUpdatedEvent
@@ -489,19 +510,22 @@ abstract class _$$ChatMessageUpdatedEventCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$ChatMessageUpdatedEventCopyWithImpl<$Res>
-    extends _$ChatMessageEventCopyWithImpl<$Res, _$ChatMessageUpdatedEvent>
-    implements _$$ChatMessageUpdatedEventCopyWith<$Res> {
-  __$$ChatMessageUpdatedEventCopyWithImpl(_$ChatMessageUpdatedEvent _value,
-      $Res Function(_$ChatMessageUpdatedEvent) _then)
+class __$$ChatMessageUpdatedEventImplCopyWithImpl<$Res>
+    extends _$ChatMessageEventCopyWithImpl<$Res, _$ChatMessageUpdatedEventImpl>
+    implements _$$ChatMessageUpdatedEventImplCopyWith<$Res> {
+  __$$ChatMessageUpdatedEventImplCopyWithImpl(
+      _$ChatMessageUpdatedEventImpl _value,
+      $Res Function(_$ChatMessageUpdatedEventImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChatMessageEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$ChatMessageUpdatedEvent(
+    return _then(_$ChatMessageUpdatedEventImpl(
       null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
@@ -512,10 +536,10 @@ class __$$ChatMessageUpdatedEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ChatMessageUpdatedEvent
+class _$ChatMessageUpdatedEventImpl
     with DiagnosticableTreeMixin
     implements ChatMessageUpdatedEvent {
-  const _$ChatMessageUpdatedEvent(this.value);
+  const _$ChatMessageUpdatedEventImpl(this.value);
 
   @override
   final GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageUpdatedEvent
@@ -535,22 +559,24 @@ class _$ChatMessageUpdatedEvent
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ChatMessageUpdatedEvent &&
+            other is _$ChatMessageUpdatedEventImpl &&
             (identical(other.value, value) || other.value == value));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChatMessageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ChatMessageUpdatedEventCopyWith<_$ChatMessageUpdatedEvent> get copyWith =>
-      __$$ChatMessageUpdatedEventCopyWithImpl<_$ChatMessageUpdatedEvent>(
-          this, _$identity);
+  _$$ChatMessageUpdatedEventImplCopyWith<_$ChatMessageUpdatedEventImpl>
+      get copyWith => __$$ChatMessageUpdatedEventImplCopyWithImpl<
+          _$ChatMessageUpdatedEventImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -651,12 +677,15 @@ class _$ChatMessageUpdatedEvent
 abstract class ChatMessageUpdatedEvent implements ChatMessageEvent {
   const factory ChatMessageUpdatedEvent(
       final GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageUpdatedEvent
-          value) = _$ChatMessageUpdatedEvent;
+          value) = _$ChatMessageUpdatedEventImpl;
 
   @override
   GonEventData_onEvent_data__asChatMessageDBEventData_value__asChatMessageUpdatedEvent
       get value;
-  @JsonKey(ignore: true)
-  _$$ChatMessageUpdatedEventCopyWith<_$ChatMessageUpdatedEvent> get copyWith =>
-      throw _privateConstructorUsedError;
+
+  /// Create a copy of ChatMessageEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChatMessageUpdatedEventImplCopyWith<_$ChatMessageUpdatedEventImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

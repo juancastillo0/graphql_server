@@ -40,7 +40,7 @@ class AuthForm extends HookConsumerWidget {
             const SizedBox(height: 4),
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.onPrimary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
               ),
               onPressed: () {
                 ref.read(authStoreProv.notifier).signOut();
@@ -75,7 +75,7 @@ class AuthForm extends HookConsumerWidget {
             const SizedBox(height: 4),
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.onPrimary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
               ),
               onPressed: () {
                 showDialog<Object?>(
@@ -153,14 +153,14 @@ class AuthForm extends HookConsumerWidget {
                   builder: (context) {
                     if (showError.value) {
                       return Container(
-                        color: Theme.of(context).errorColor,
+                        color: Theme.of(context).colorScheme.error,
                         padding: const EdgeInsets.all(8),
                         margin: const EdgeInsets.only(bottom: 6),
                         child: Text(
                           error.data!,
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyMedium!
                               .copyWith(
                                 color: Theme.of(context).colorScheme.onError,
                               ),

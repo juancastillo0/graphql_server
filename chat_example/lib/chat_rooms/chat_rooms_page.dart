@@ -37,7 +37,7 @@ class _ChatsPageState extends State<ChatsPage> {
           });
         },
         style: TextButton.styleFrom(
-          primary: Theme.of(context).colorScheme.onPrimary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
@@ -178,7 +178,7 @@ class ChatsBody extends StatelessWidget {
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
                               chat.name,
-                              style: Theme.of(context).textTheme.headline6,
+                              style: Theme.of(context).textTheme.headlineSmall,
                             ),
                           ),
                           Row(

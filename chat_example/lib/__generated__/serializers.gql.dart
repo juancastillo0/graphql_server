@@ -410,7 +410,7 @@ import 'package:chat_example/api/__generated__/user.var.gql.dart'
         GsignUpVars;
 import 'package:chat_example/api/upload_serializer.dart' show UploadSerializer;
 import 'package:ferry_exec/ferry_exec.dart';
-import 'package:gql_code_builder/src/serializers/operation_serializer.dart'
+import 'package:gql_code_builder_serializers/gql_code_builder_serializers.dart'
     show OperationSerializer;
 import 'package:http/http.dart';
 

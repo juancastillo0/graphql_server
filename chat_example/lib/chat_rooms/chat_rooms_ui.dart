@@ -43,7 +43,7 @@ class CreateRoomForm extends StatelessWidget {
               duration: const Duration(milliseconds: 100),
               child: error.value.isNotEmpty
                   ? Card(
-                      color: Theme.of(context).errorColor,
+                      color: Theme.of(context).colorScheme.error,
                       child: Text(error.value),
                     )
                   : const SizedBox(),
@@ -193,7 +193,7 @@ class ChatItemsList extends HookConsumerWidget {
                     padding: const EdgeInsets.all(4.0),
                     child: Text(
                       room.name,
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ),
                   if (messages != null && messages.isNotEmpty)
@@ -217,12 +217,12 @@ class ChatItemsList extends HookConsumerWidget {
                                   message.message.length,
                                 ),
                               ),
-                              style: Theme.of(context).textTheme.overline,
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ),
                           Text(
                             _simpleDate(message.createdAt.value),
-                            style: Theme.of(context).textTheme.overline,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
                       );
