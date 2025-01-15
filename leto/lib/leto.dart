@@ -453,12 +453,9 @@ class GraphQL {
                   .toList(),
             );
           } else {
-            final Object? coercedValue = type.deserialize(
-              schema.serdeCtx,
-              // Nullability change was validation.value!
-              validation.value,
-            );
-            coercedValues[variableName] = coercedValue;
+            // don't deserialize at this point.  The argument coercion
+            // will take care of deserialzition of variable values
+            coercedValues[variableName] = validation.value;
           }
         }
       }
@@ -972,9 +969,19 @@ class GraphQL {
           /// variable values where already validated and
           /// coerced in [coerceVariableValues]
           final variableName = node.name.value;
-          final Object? value = variableValues.containsKey(variableName)
-              ? variableValues[variableName]
-              : defaultValue;
+          //final Object? value = variableValues.containsKey(variableName) ? variableValues[variableName] : defaultValue;
+          //coercedValues[argumentName] = value;
+          final Object? value;
+          if (!variableValues.containsKey(variableName)) {
+            value = defaultValue;
+          } else if (variableValues[variableName] != null) {
+            value = argumentType.deserialize(
+              serdeCtx,
+              variableValues[variableName],
+            );
+          } else {
+            value = null;
+          }
           coercedValues[argumentName] = value;
           if (value == null && argumentType.isNonNullable) {
             throw GraphQLException.fromMessage(

@@ -270,7 +270,7 @@ class _GraphQLNonNullListType<Value, Serialized>
   }
 
   @override
-  List<Value> deserialize(SerdeCtx serdeCtx, List<Serialized?> serialized) {
+  List<Value> deserialize(SerdeCtx serdeCtx, List<dynamic> serialized) {
     return serialized
         .map<Value>(
           (v) => v is Value
@@ -348,7 +348,7 @@ class _GraphQLNullableListType<Value, Serialized>
   }
 
   @override
-  List<Value?> deserialize(SerdeCtx serdeCtx, List<Serialized?> serialized) {
+  List<Value?> deserialize(SerdeCtx serdeCtx, List<dynamic> serialized) {
     if (ofType.isNonNullable) {
       return serialized
           .map<Value>(
@@ -362,7 +362,7 @@ class _GraphQLNullableListType<Value, Serialized>
     return serialized
         .map<Value?>(
           // ignore: unnecessary_cast
-          (v) => v is Value? ? v as Value? : ofType.deserialize(serdeCtx, v),
+          (v) => v is Value? ? v as Value? : ofType.deserialize(serdeCtx, v as Serialized),
         )
         .toList();
   }
