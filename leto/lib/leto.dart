@@ -341,11 +341,13 @@ class GraphQL {
       }
     }
 
+    final coercedVariableValues =
+        coerceVariableValues(schema, operation, variableValues);
     final ctx = ExecutionCtx(
       document: document,
       operation: operation,
       scope: globalVariables,
-      variableValues: variableValues ?? {},
+      variableValues: coercedVariableValues,
       requestCtx: baseCtx,
     );
     _resolveCtxRef.get(ctx.scope).value = ctx;
@@ -396,6 +398,79 @@ class GraphQL {
         ),
       );
     }
+  }
+
+  Map<String, dynamic> coerceVariableValues(
+    GraphQLSchema schema,
+    OperationDefinitionNode operation,
+    Map<String, dynamic>? variableValues,
+  ) {
+    final coercedValues = <String, dynamic>{};
+    final variableDefinitions = operation.variableDefinitions;
+
+    for (final variableDefinition in variableDefinitions) {
+      final variableName = variableDefinition.variable.name.value;
+      final variableType = variableDefinition.type;
+      final type = convertType(variableType, schema.typeMap);
+      final span = variableDefinition.span ??
+          variableDefinition.variable.span ??
+          variableDefinition.variable.name.span;
+      final locations = GraphQLErrorLocation.listFromSource(
+        span?.start,
+      );
+
+      if (!isInputType(type)) {
+        throw GraphQLError(
+          'Variable "$variableName" expected value of type "$type"'
+          ' which cannot be used as an input type.',
+          locations: locations,
+        );
+      }
+
+      final defaultValue = variableDefinition.defaultValue;
+      if (variableValues == null || !variableValues.containsKey(variableName)) {
+        if (defaultValue?.value != null) {
+          coercedValues[variableName] = computeValue(
+            type,
+            defaultValue!.value!,
+            variableValues,
+          );
+        }
+      } else {
+        final Object? value = variableValues[variableName];
+        if (value == null) {
+          if (variableValues.containsKey(variableName)) {
+            coercedValues[variableName] = null;
+          }
+        } else {
+          // TODO: 3I should we just deserialize with a result?
+          final validation = type.validate(variableName, value);
+
+          if (!validation.successful) {
+            throw GraphQLException(
+              validation.errors
+                  .map((e) => GraphQLError(e, locations: locations))
+                  .toList(),
+            );
+          } else {
+            // don't deserialize at this point.  The argument coercion
+            // will take care of deserialzition of variable values
+            coercedValues[variableName] = validation.value;
+          }
+        }
+      }
+      if (variableType.isNonNull && coercedValues[variableName] == null) {
+        throw GraphQLException.fromMessage(
+          coercedValues.containsKey(variableName)
+              ? 'Required variable "$variableName" of'
+                  ' type $type must not be null.'
+              : 'Missing required variable "$variableName" of type $type',
+          location: span?.start,
+        );
+      }
+    }
+
+    return coercedValues;
   }
 
   Future<Map<String, dynamic>> executeQuery(
@@ -890,7 +965,37 @@ class GraphQL {
             argumentValue.span ??
             argumentValue.value.span ??
             argumentValue.name.span;
-
+        if (node is VariableNode) {
+          /// variable values where already validated and
+          /// coerced in [coerceVariableValues]
+          final variableName = node.name.value;
+          //final Object? value = variableValues.containsKey(variableName) ? variableValues[variableName] : defaultValue;
+          //coercedValues[argumentName] = value;
+          final Object? value;
+          if (!variableValues.containsKey(variableName)) {
+            value = defaultValue;
+          } else if (variableValues[variableName] != null) {
+            value = argumentType.deserialize(
+              serdeCtx,
+              variableValues[variableName],
+            );
+          } else {
+            value = null;
+          }
+          coercedValues[argumentName] = value;
+          if (value == null && argumentType.isNonNullable) {
+            throw GraphQLException.fromMessage(
+              variableValues.containsKey(variableName)
+                  ? 'Variable value for argument "$argumentName" of type $argumentType'
+                      ' for field "$fieldName" must not be null.'
+                  : 'Missing variable "$variableName" for argument'
+                      ' "$argumentName" of type $argumentType'
+                      ' for field "$fieldName".',
+              location: span?.start,
+            );
+          }
+          continue;
+        }
         final value = computeValue(
           argumentType,
           node,
