@@ -2,6 +2,7 @@
 import 'package:leto/leto.dart';
 import 'package:leto/types/json.dart';
 import 'package:leto_schema/leto_schema.dart';
+import 'serialized_types.dart';
 
 import 'package:test/test.dart';
 
@@ -65,6 +66,21 @@ final TestNestedInputObject = GraphQLInputObjectType<Map<String, Object?>>(
   ],
 );
 
+final TestMultipleNestedInputObject =
+    GraphQLInputObjectType<Map<String, Object?>>(
+  'TestMultipleNestedInputObject',
+  fields: [
+    GraphQLFieldInput('words', graphQLString.nonNull()),
+    GraphQLFieldInput('value1', TestWrappedValue),
+    GraphQLFieldInput('value2', TestWrappedValue),
+  ],
+);
+
+final TestWrappedValue =
+    GraphQLInputObjectType<Object>('TestWrappedValue', fields: [
+  GraphQLFieldInput('value', graphQLString),
+]);
+
 // TODO: 3I should we allow non null values? is GraphQLType generics?
 // maybe support Option, Result
 // final TestEnum = GraphQLEnumType<Map<String, Object?>>(
@@ -117,6 +133,25 @@ GraphQLObjectField<Json, Object?, Object?> fieldWithInputArg<V>(
   );
 }
 
+GraphQLObjectField<Json, Object?, Object?> fieldWithMultipleInputArgs(
+  String name,
+  List<GraphQLFieldInput> inputs,
+) {
+  return jsonGraphQLType.field(
+    name,
+    inputs: inputs,
+    resolve: (_, ctx) {
+      final vals = <String, Object?>{};
+      for (final input in inputs) {
+        if (ctx.args.containsKey(input.name)) {
+          vals[input.name] = Json.fromJson(ctx.args[input.name]);
+        }
+      }
+      return Json.fromJson(vals);
+    },
+  );
+}
+
 final TestType = GraphQLObjectType(
   'TestType',
   fields: {
@@ -146,6 +181,11 @@ final TestType = GraphQLObjectType(
       TestNestedInputObject,
       defaultValue: <String, Object?>{},
     ),
+    fieldWithInputArg(
+      'fieldWithMultipleNestedInputObject',
+      TestMultipleNestedInputObject,
+    ),
+
     fieldWithInputArg('list', listOf(graphQLString)),
     fieldWithInputArg(
       'nnList',
@@ -175,7 +215,17 @@ final TestType = GraphQLObjectType(
   },
 );
 
-final schema = GraphQLSchema(queryType: TestType);
+final MutationTestType = GraphQLObjectType(
+  'TestMutationType',
+  fields: {
+    testMutationGraphQLField,
+  },
+);
+
+final schema = GraphQLSchema(
+    queryType: TestType,
+    mutationType: MutationTestType,
+    serdeCtx: SerdeCtx()..addAll([testValueSerializer, testInputSerializer]));
 
 final server = GraphQL(schema, validate: false);
 
@@ -526,7 +576,7 @@ Future<void> main() async {
       test('errors on deep nested errors and with many errors', () async {
         const nestedDoc = r'''
           query ($input: TestNestedInputObject) {
-            fieldWithNestedObjectInput(input: $input)
+            fieldWithNestedInputObject(input: $input)
           }
         ''';
         final result = await executeQuery(nestedDoc, {
@@ -577,6 +627,61 @@ Future<void> main() async {
             },
           ],
         });
+      });
+    });
+
+    test('Success on complete deep nested', () async {
+      const nestedDoc = r'''
+          query ($input: TestNestedInputObject) {
+            fieldWithNestedInputObject(input: $input)
+          }
+        ''';
+      final result = await executeQuery(nestedDoc, {
+        'input': {
+          'na': {
+            'a': 'a',
+            'b': ['first', 'second', 'third'],
+            'c': 'c',
+            'd': null,
+          },
+          'nb': 'word here',
+        },
+      });
+
+      expect(result, {
+        'data': {
+          'fieldWithNestedInputObject': {
+            'na': {
+              'a': 'a',
+              'b': ['first', 'second', 'third'],
+              'c': 'c',
+              'd': null
+            },
+            'nb': 'word here'
+          }
+        },
+      });
+    });
+
+    test('Success parsing nested input with variables on nested objects', () async {
+      const nestedDoc = r'''
+          mutation ($val1: TestValue, $val2: TestValue, $words: String!, $num: Int!, $test: Boolean!) {
+            testMutation(input: {words: $words, value1: $val1, value2: $val2, value3: $val3},  num: $num, isATest: $test)
+          }
+        ''';
+      final result = await executeQuery(nestedDoc, {
+        'words': 'word here',
+        'val1': null,
+        'val2': {'value': 'value 2'},
+        'val3': ['bar'],
+        'num': 10,
+        'test': true,
+      });
+
+      expect(result, {
+        'data': {
+          'testMutation': true,
+        },
       });
     });
   });
